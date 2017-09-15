@@ -33,6 +33,7 @@ public:
 
 int main( int argc, char** argv )
 {
+    hamurai::Pipeline p;
     try{
         TestKernel k;
     }
