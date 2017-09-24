@@ -1,8 +1,20 @@
 
 #include "kernel.h"
 #include "exception.h"
+#include "graph.h"
 
 using namespace std;
+
+hamurai::Kernel::Kernel()
+    :_parentGraph(nullptr)
+{
+
+}
+
+hamurai::Kernel::~Kernel()
+{
+
+}
 
 std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_port(const string &name, std::map<string, std::shared_ptr<hamurai::Port> > &m)
 {
@@ -48,6 +60,11 @@ std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_output(const string &nam
 bool hamurai::Kernel::queryEvent(hamurai::Event &e, int64_t timeout_ms)
 {
     return _eventQueue.dequeue( e, timeout_ms );
+}
+
+void hamurai::Kernel::request_execution()
+{
+    _parentGraph->request_execution(shared_from_this());
 }
 
 std::shared_ptr<hamurai::Port> hamurai::Kernel::in(const string &portName)

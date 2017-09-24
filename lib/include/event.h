@@ -9,7 +9,9 @@ public:
     typedef enum
     {
         HAMURAI_EVENT_NONE=0,
-        HAMURAI_EVENT_DATA
+        HAMURAI_EVENT_DATA,
+        HAMURAI_EVENT_EXECUTION_QUERY,
+        HAMURAI_EVENT_LAST
     } Type;
 
     Event()

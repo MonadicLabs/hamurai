@@ -1,24 +1,24 @@
 #pragma once
 
-#include <cstdint>
-
+#include "genericqueue.h"
 #include "event.h"
 
 namespace hamurai
 {
-    class EventQueue
-    {
-    public:
-        EventQueue();
-        virtual ~EventQueue();
+class EventQueue : public GenericQueue<Event>
+{
+public:
+    EventQueue();
+    virtual ~EventQueue();
 
-        bool enqueue( Event const& item );
-        bool enqueue( Event&& item );
+    virtual bool enqueue( Event const& item );
+    virtual bool enqueue( Event&& item );
+    virtual bool dequeue(Event & item, int64_t timeout_ms );
 
-        bool dequeue(Event &item, int64_t timeout_ms );
+private:
 
-    private:
-        void* _backend;
+protected:
+    void * _backend;
 
-    };
+};
 }

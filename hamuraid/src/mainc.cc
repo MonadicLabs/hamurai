@@ -5,6 +5,15 @@
 using namespace std;
 using namespace hamurai;
 
+class RandomNumberGenerator : public hamurai::Kernel
+{
+public:
+    RandomNumberGenerator()
+    {
+        declare_output( "output" );
+    }
+};
+
 class TestKernel : public hamurai::Kernel
 {
 public:
