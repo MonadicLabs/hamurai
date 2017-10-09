@@ -42,7 +42,8 @@ public:
 
 int main( int argc, char** argv )
 {
-    hamurai::Pipeline p;
+    std::shared_ptr<hamurai::Pipeline> p = std::make_shared<Pipeline>();
+    hamurai::Scheduler * sched = new NaiveScheduler( p );
     try{
         TestKernel k;
     }

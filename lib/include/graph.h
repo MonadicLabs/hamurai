@@ -9,10 +9,6 @@ namespace hamurai
     class Graph
     {
     public:
-        void request_execution( std::shared_ptr<Kernel> k )
-        {
-
-        }
 
     private:
 
