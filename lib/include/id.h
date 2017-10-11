@@ -2,8 +2,5 @@
 
 namespace hamurai
 {
-    class Id
-    {
-
-    };
+    typedef int Id;
 }

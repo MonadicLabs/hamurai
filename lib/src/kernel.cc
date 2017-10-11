@@ -6,7 +6,7 @@
 using namespace std;
 
 hamurai::Kernel::Kernel()
-    :_parentGraph(nullptr)
+    :_parent(nullptr), _curState(NOT_INITIALIZED)
 {
 
 }
@@ -88,4 +88,9 @@ std::shared_ptr<hamurai::Port> hamurai::Kernel::out(const string &portName)
         ret = _outputs[ portName ];
     }
     return ret;
+}
+
+void hamurai::Kernel::setState()
+{
+
 }

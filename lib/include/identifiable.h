@@ -7,6 +7,10 @@ namespace hamurai
     class Identifiable
     {
     public:
+        Id id()
+        {
+            return _id;
+        }
 
     private:
 

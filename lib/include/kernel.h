@@ -10,16 +10,28 @@
 
 namespace hamurai
 {
-class Graph;
+class Pipeline;
 class Kernel : public Identifiable
 {
 
     friend class Port;
-    friend class Graph;
+    friend class Pipeline;
 
 public:
+
+    typedef enum
+    {
+        NOT_INITIALIZED = 0,
+        TERMINATED,
+        NORMAL,
+        SUSPENDED,
+        INACTIVE
+    } State;
+
     Kernel();
     virtual ~Kernel();
+
+    virtual void onInit(){}
 
 private:
     std::shared_ptr<Port> declare_port( const std::string& name,
@@ -27,7 +39,12 @@ private:
 
     bool pushEvent(const Event &e );
     EventQueue _eventQueue;
-    Graph* _parentGraph;
+
+    // Parent pipeline reference
+    std::shared_ptr< Pipeline > _parent;
+
+    // Kernel current state
+    State _curState;
 
 protected:
     std::map< std::string, std::shared_ptr< Port > > _inputs;
@@ -37,8 +54,13 @@ protected:
     std::shared_ptr< Port > declare_output( const std::string& name );
     bool queryEvent( Event& e, int64_t timeout_ms = -1 );
 
+    // IO
     std::shared_ptr<Port> in( const std::string& portName );
     std::shared_ptr<Port> out( const std::string& portName );
+
+    // STATE
+    State getState();
+    void setState();
 
 };
 }

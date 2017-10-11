@@ -4,7 +4,7 @@
 std::vector< std::shared_ptr< hamurai::Kernel> > hamurai::Pipeline::kernels()
 {
     std::vector< std::shared_ptr< hamurai::Kernel > > ret;
-    for( auto kv : _nodes )
+    for( auto kv : _kernels )
     {
         ret.push_back( kv.second );
     }

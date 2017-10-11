@@ -2,6 +2,7 @@
 
 namespace hamurai
 {
+
 class Event
 {
 public:
@@ -10,6 +11,7 @@ public:
     {
         HAMURAI_EVENT_NONE=0,
         HAMURAI_EVENT_DATA,
+        HAMURAI_EVENT_INIT,
         HAMURAI_EVENT_EXECUTION_QUERY,
         HAMURAI_EVENT_LAST
     } Type;
@@ -30,4 +32,5 @@ protected:
     Event::Type _type;
 
 };
+
 }

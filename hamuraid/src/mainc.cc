@@ -12,6 +12,11 @@ public:
     {
         declare_output( "output" );
     }
+
+    virtual void onInit()
+    {
+        cerr << "Random Number Generator initialized !" << endl;
+    }
 };
 
 class TestKernel : public hamurai::Kernel
@@ -43,7 +48,11 @@ public:
 int main( int argc, char** argv )
 {
     std::shared_ptr<hamurai::Pipeline> p = std::make_shared<Pipeline>();
-    hamurai::Scheduler * sched = new NaiveScheduler( p );
+
+    std::shared_ptr<hamurai::Kernel> k1 = std::make_shared< RandomNumberGenerator >();
+    p->addKernel( k1 );
+
+    /*
     try{
         TestKernel k;
     }
@@ -51,6 +60,7 @@ int main( int argc, char** argv )
     {
         cerr << e.verbose_what() << endl;
     }
+    */
 
     return 0;
 }
