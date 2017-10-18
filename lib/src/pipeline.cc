@@ -1,6 +1,17 @@
 
 #include "pipeline.h"
 
+hamurai::Pipeline::Pipeline(std::shared_ptr<hamurai::ExecutionBackend> backend)
+    :_backend(backend)
+{
+
+}
+
+hamurai::Pipeline::~Pipeline()
+{
+
+}
+
 std::vector< std::shared_ptr< hamurai::Kernel> > hamurai::Pipeline::kernels()
 {
     std::vector< std::shared_ptr< hamurai::Kernel > > ret;

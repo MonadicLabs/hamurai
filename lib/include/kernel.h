@@ -7,11 +7,13 @@
 #include "event.h"
 #include "identifiable.h"
 #include "eventqueue.h"
+#include "eventmanager.h"
 
 namespace hamurai
 {
+
 class Pipeline;
-class Kernel : public Identifiable
+class Kernel : public Identifiable, public EventManager, public std::enable_shared_from_this<Kernel>
 {
 
     friend class Port;
@@ -31,7 +33,22 @@ public:
     Kernel();
     virtual ~Kernel();
 
-    virtual void onInit(){}
+    virtual void init(){}
+    virtual void tick(){}
+    virtual void start();
+    virtual void stop();
+
+    virtual void schedule( std::shared_ptr<Event> e );
+
+    void setEventManager( std::shared_ptr<EventManager> em )
+    {
+        _parentManager = em;
+    }
+
+    std::shared_ptr<EventManager> getEventManager()
+    {
+        return _parentManager;
+    }
 
 private:
     std::shared_ptr<Port> declare_port( const std::string& name,
@@ -41,7 +58,7 @@ private:
     EventQueue _eventQueue;
 
     // Parent pipeline reference
-    std::shared_ptr< Pipeline > _parent;
+    std::shared_ptr< EventManager > _parentManager;
 
     // Kernel current state
     State _curState;

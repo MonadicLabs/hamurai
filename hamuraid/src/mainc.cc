@@ -32,22 +32,15 @@ public:
         {
             in("popo")->push( DataItem() );
         }
-
-        Event e;
-        while( queryEvent( e, -1 ) )
-        {
-            cerr << "event !" << endl;
-            if( e.type() == Event::HAMURAI_EVENT_DATA )
-            {
-                cerr << "data...." << endl;
-            }
-        }
     }
 };
 
 int main( int argc, char** argv )
 {
+    std::shared_ptr<hamurai::ExecutionBackend> eb = std::make_shared<NaiveExecutionBackend>();
+
     std::shared_ptr<hamurai::Pipeline> p = std::make_shared<Pipeline>();
+    p->setEventManager( eb );
 
     std::shared_ptr<hamurai::Kernel> k1 = std::make_shared< RandomNumberGenerator >();
     p->addKernel( k1 );

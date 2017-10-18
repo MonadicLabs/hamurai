@@ -1,8 +1,11 @@
 #pragma once
 
+#include <memory>
+
 namespace hamurai
 {
 
+class Kernel;
 class Event
 {
 public:
@@ -10,17 +13,17 @@ public:
     typedef enum
     {
         HAMURAI_EVENT_NONE=0,
-        HAMURAI_EVENT_DATA,
-        HAMURAI_EVENT_INIT,
+        HAMURAI_EVENT_DATA_RECEIVED,
+        HAMURAI_EVENT_INIT_QUERY,
         HAMURAI_EVENT_EXECUTION_QUERY,
+        HAMURAI_EVENT_KERNEL_INSERTION,
+        HAMURAI_EVENT_KERNEL_DESTRUCTION,
+        HAMURAI_EVENT_KERNEL_START,
+        HAMURAI_EVENT_KERNEL_STOP,
         HAMURAI_EVENT_LAST
     } Type;
 
-    Event()
-        :_type(HAMURAI_EVENT_NONE)
-    {
-
-    }
+    Event(Type eventType = HAMURAI_EVENT_NONE, std::shared_ptr<Kernel> k = nullptr );
 
     Type type()
     {
@@ -28,7 +31,7 @@ public:
     }
 
 protected:
-    Event( Event::Type type );
+    // Event( Event::Type type );
     Event::Type _type;
 
 };

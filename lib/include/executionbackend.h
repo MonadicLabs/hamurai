@@ -2,20 +2,18 @@
 
 #include <memory>
 
-#include "event.h"
+#include "eventmanager.h"
 
 namespace hamurai
 {
-class ExecutionBackend
+
+class ExecutionBackend : public EventManager
 {
 public:
-    ExecutionBackend();
-    virtual ~ExecutionBackend();
+    ExecutionBackend(){}
+    virtual ~ExecutionBackend(){}
 
-    virtual void start(){}
-    virtual void stop(){}
-
-    virtual void processEvent( std::shared_ptr< Event > e ){}
+    virtual void receive( std::shared_ptr<Event> e ){}
 
 private:
 

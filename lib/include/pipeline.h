@@ -7,39 +7,42 @@
 #include "kernel.h"
 #include "link.h"
 #include "executionbackend.h"
-#include "initevent.h"
 
 namespace hamurai
 {
-    class Pipeline : public Kernel
+class Pipeline : public Kernel
+{
+public:
+
+    Pipeline( std::shared_ptr<ExecutionBackend> backend = nullptr );
+    virtual ~Pipeline();
+
+    std::vector<std::shared_ptr<Kernel> > kernels();
+    std::vector<std::shared_ptr<Link> > links();
+
+    void start( std::shared_ptr< ExecutionBackend > backend ){}
+    void stop(){}
+
+    void addKernel( std::shared_ptr< Kernel > k )
     {
-    public:
+        // Okay, so we add the reference to the kernel in our dictionary
+        _kernels.insert( make_pair( k->id(), k ) );
 
-        Pipeline( std::shared_ptr<ExecutionBackend> backend = nullptr )
-            :_backend(backend)
-        {
+        // We set the kernel event manager as ourself
+        k->setEventManager( shared_from_this() );
 
-        }
+        // Tell our own event manager that we have added a new kernel to manage
+        schedule( std::make_shared<Event>(Event::HAMURAI_EVENT_KERNEL_INSERTION, k) );
 
-        std::vector<std::shared_ptr<Kernel> > kernels();
-        std::vector<std::shared_ptr<Link> > links();
+    }
 
-        void start( std::shared_ptr< ExecutionBackend > backend );
-        void stop();
+private:
+    std::map< hamurai::Id, std::shared_ptr< hamurai::Kernel > > _kernels;
+    std::map< hamurai::Id, std::shared_ptr< hamurai::Link > > _links;
 
-        void addKernel( std::shared_ptr< Kernel > k )
-        {
-            _kernels.insert( make_pair( k->id(), k ) );
-            _backend->processEvent( std::make_shared< InitEvent >( k ) );
-        }
+    std::shared_ptr< ExecutionBackend > _backend;
 
-    private:
-        std::map< hamurai::Id, std::shared_ptr< hamurai::Kernel > > _kernels;
-        std::map< hamurai::Id, std::shared_ptr< hamurai::Link > > _links;
+protected:
 
-        std::shared_ptr< ExecutionBackend > _backend;
-
-    protected:
-
-    };
+};
 }

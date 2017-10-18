@@ -2,18 +2,39 @@
 #include "kernel.h"
 #include "exception.h"
 #include "graph.h"
+#include "event.h"
+
+#include <iostream>
 
 using namespace std;
 
 hamurai::Kernel::Kernel()
-    :_parent(nullptr), _curState(NOT_INITIALIZED)
+    :_parentManager(nullptr), _curState(NOT_INITIALIZED)
 {
 
 }
 
 hamurai::Kernel::~Kernel()
 {
+    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_DESTRUCTION, shared_from_this() ) );
+}
 
+void hamurai::Kernel::start()
+{
+    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_START, shared_from_this() ) );
+}
+
+void hamurai::Kernel::stop()
+{
+    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_STOP, shared_from_this() ) );
+}
+
+void hamurai::Kernel::schedule(std::shared_ptr<hamurai::Event> e)
+{
+    if( _parentManager )
+    {
+        _parentManager->receive( e );
+    }
 }
 
 std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_port(const string &name, std::map<string, std::shared_ptr<hamurai::Port> > &m)
