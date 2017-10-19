@@ -20,8 +20,23 @@ public:
     std::vector<std::shared_ptr<Kernel> > kernels();
     std::vector<std::shared_ptr<Link> > links();
 
-    void start( std::shared_ptr< ExecutionBackend > backend ){}
-    void stop(){}
+    void start( std::shared_ptr< ExecutionBackend > backend )
+    {
+        // We start all of our kernels
+        for( auto kv : _kernels )
+        {
+            kv.second->start();
+        }
+    }
+
+    void stop()
+    {
+        // We stop all of our kernels
+        for( auto kv : _kernels )
+        {
+            kv.second->stop();
+        }
+    }
 
     void addKernel( std::shared_ptr< Kernel > k )
     {
