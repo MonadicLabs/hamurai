@@ -4,6 +4,9 @@
 
 #include <iostream>
 #include <atomic>
+#include <thread>
+
+using namespace std;
 
 namespace hamurai {
 
@@ -15,14 +18,8 @@ namespace hamurai {
 
         virtual void receive( std::shared_ptr<Event> e )
         {
-            if( e->type() == Event::HAMURAI_EVENT_KERNEL_INSERTION )
-            {
-                std::cerr << "RECEIVED KERNEL INSERTION ORDER !" << std::endl;
-            }
-            else if( e->type() == Event::HAMURAI_EVENT_KERNEL_DESTRUCTION )
-            {
-                std::cerr << "RECEIVED KERNEL DESTRUCTION EVENT" << std::endl;
-            }
+            cerr << "enqueuing Event... " << e->kernel() << " - " << e->type() << endl;
+            _mainQueue.enqueue( e );
         }
 
         virtual void start();
@@ -34,7 +31,7 @@ namespace hamurai {
         std::atomic< bool > _needStop;
 
     protected:
-        LockFreeQueue< std::shared_ptr< Event > > _mainQueue;
+        EventQueue _mainQueue;
         std::thread _mainThread;
 
     };

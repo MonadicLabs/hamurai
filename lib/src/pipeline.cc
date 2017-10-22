@@ -1,8 +1,7 @@
 
 #include "pipeline.h"
 
-hamurai::Pipeline::Pipeline(std::shared_ptr<hamurai::ExecutionBackend> backend)
-    :_backend(backend)
+hamurai::Pipeline::Pipeline()
 {
 
 }

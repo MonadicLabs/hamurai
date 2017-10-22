@@ -12,6 +12,7 @@ public:
     virtual bool enqueue( T const& item ) = 0;
     virtual bool enqueue( T&& item ) = 0;
     virtual bool dequeue(T &item, int64_t timeout_ms ) = 0;
+    virtual int size(){ return -1; }
 
 };
 }

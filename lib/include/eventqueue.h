@@ -5,15 +5,17 @@
 
 namespace hamurai
 {
-class EventQueue : public GenericQueue<Event>
+class EventQueue : public GenericQueue< std::shared_ptr<Event> >
 {
 public:
     EventQueue();
     virtual ~EventQueue();
 
-    virtual bool enqueue( Event const& item );
-    virtual bool enqueue( Event&& item );
-    virtual bool dequeue(Event & item, int64_t timeout_ms );
+    virtual bool enqueue( std::shared_ptr<Event> const& item );
+    virtual bool enqueue( std::shared_ptr<Event> && item );
+    virtual bool dequeue( std::shared_ptr<Event> & item, int64_t timeout_ms );
+
+    int size();
 
 private:
 

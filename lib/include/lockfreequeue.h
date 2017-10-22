@@ -47,6 +47,11 @@ public:
         return false;
     }
 
+    virtual int size()
+    {
+        return _queue.size_approx();
+    }
+
 private:
 
 protected:

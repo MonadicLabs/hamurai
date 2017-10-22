@@ -3,7 +3,7 @@
 #include <memory>
 
 #include "eventmanager.h"
-#include "lockfreequeue.h"
+#include "eventqueue.h"
 
 namespace hamurai
 {

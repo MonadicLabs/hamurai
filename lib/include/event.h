@@ -13,6 +13,7 @@ public:
     typedef enum
     {
         HAMURAI_EVENT_NONE=0,
+        HAMURAI_EVENT_TICK,
         HAMURAI_EVENT_DATA_RECEIVED,
         HAMURAI_EVENT_INIT_QUERY,
         HAMURAI_EVENT_EXECUTION_QUERY,
@@ -30,9 +31,15 @@ public:
         return _type;
     }
 
+    std::shared_ptr< Kernel > kernel()
+    {
+        return _kernel;
+    }
+
 protected:
     // Event( Event::Type type );
     Event::Type _type;
+    std::shared_ptr< Kernel > _kernel;
 
 };
 

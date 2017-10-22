@@ -21,11 +21,14 @@ hamurai::Kernel::~Kernel()
 
 void hamurai::Kernel::start()
 {
-    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_START, shared_from_this() ) );
+    cerr << "scheduling kernel start() " << this << endl;
+    setState( Kernel::STARTED );
+    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_INIT_QUERY, shared_from_this() ) );
 }
 
 void hamurai::Kernel::stop()
 {
+    setState( Kernel::STOPPED );
     schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_STOP, shared_from_this() ) );
 }
 
@@ -33,7 +36,12 @@ void hamurai::Kernel::schedule(std::shared_ptr<hamurai::Event> e)
 {
     if( _parentManager )
     {
+        // cerr << "calling receive on " << _parentManager << " type=" << e->type() << endl;
         _parentManager->receive( e );
+    }
+    else
+    {
+        // cerr << "No event manager set :/" << endl;
     }
 }
 
@@ -54,7 +62,7 @@ std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_port(const string &name,
 
 bool hamurai::Kernel::pushEvent(hamurai::Event const& e)
 {
-    return _eventQueue.enqueue(e);
+    // return _eventQueue.enqueue(e);
 }
 
 std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_input(const std::string &name)
@@ -80,7 +88,8 @@ std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_output(const string &nam
 
 bool hamurai::Kernel::queryEvent(hamurai::Event &e, int64_t timeout_ms)
 {
-    return _eventQueue.dequeue( e, timeout_ms );
+    // return _eventQueue.dequeue( e, timeout_ms );
+    return false;
 }
 
 std::shared_ptr<hamurai::Port> hamurai::Kernel::in(const string &portName)
@@ -109,9 +118,4 @@ std::shared_ptr<hamurai::Port> hamurai::Kernel::out(const string &portName)
         ret = _outputs[ portName ];
     }
     return ret;
-}
-
-void hamurai::Kernel::setState()
-{
-
 }

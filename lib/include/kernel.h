@@ -74,8 +74,17 @@ protected:
     std::shared_ptr<Port> out( const std::string& portName );
 
     // STATE
-    State getState();
-    void setState();
+    State getState()
+    {
+        // TODO lock
+        return _curState;
+    }
+
+    void setState( State s )
+    {
+        // TODO lock
+        _curState = s;
+    }
 
 };
 }
