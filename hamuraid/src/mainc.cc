@@ -45,15 +45,7 @@ int main( int argc, char** argv )
     std::shared_ptr<hamurai::Kernel> k1 = std::make_shared< RandomNumberGenerator >();
     p->addKernel( k1 );
 
-    /*
-    try{
-        TestKernel k;
-    }
-    catch( hamurai::Exception& e )
-    {
-        cerr << e.verbose_what() << endl;
-    }
-    */
+
 
     return 0;
 }

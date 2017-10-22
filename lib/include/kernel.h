@@ -23,11 +23,9 @@ public:
 
     typedef enum
     {
-        NOT_INITIALIZED = 0,
-        TERMINATED,
-        NORMAL,
-        SUSPENDED,
-        INACTIVE
+        STOPPED = 0,
+        STARTED,
+        STOPPING
     } State;
 
     Kernel();

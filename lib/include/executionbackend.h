@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "eventmanager.h"
+#include "lockfreequeue.h"
 
 namespace hamurai
 {
@@ -14,6 +15,10 @@ public:
     virtual ~ExecutionBackend(){}
 
     virtual void receive( std::shared_ptr<Event> e ){}
+
+    virtual void start(){}
+    virtual void stop(){}
+    virtual void join(){}
 
 private:
 

@@ -9,7 +9,7 @@
 using namespace std;
 
 hamurai::Kernel::Kernel()
-    :_parentManager(nullptr), _curState(NOT_INITIALIZED)
+    :_parentManager(nullptr), _curState(STOPPED)
 {
 
 }

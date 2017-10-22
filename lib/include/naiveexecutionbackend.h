@@ -3,6 +3,7 @@
 #include "executionbackend.h"
 
 #include <iostream>
+#include <atomic>
 
 namespace hamurai {
 
@@ -24,9 +25,17 @@ namespace hamurai {
             }
         }
 
+        virtual void start();
+        virtual void stop();
+        virtual void join();
+
     private:
+        void processEvents();
+        std::atomic< bool > _needStop;
 
     protected:
+        LockFreeQueue< std::shared_ptr< Event > > _mainQueue;
+        std::thread _mainThread;
 
     };
 }
