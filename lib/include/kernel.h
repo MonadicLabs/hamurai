@@ -37,6 +37,7 @@ public:
     virtual void stop();
 
     virtual void schedule( std::shared_ptr<Event> e );
+    virtual void enable_idle();
 
     void setEventManager( std::shared_ptr<EventManager> em )
     {

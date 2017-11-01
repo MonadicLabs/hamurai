@@ -45,6 +45,11 @@ void hamurai::Kernel::schedule(std::shared_ptr<hamurai::Event> e)
     }
 }
 
+void hamurai::Kernel::enable_idle()
+{
+    schedule( std::make_shared<Event>( Event::HAMURAI_EVENT_KERNEL_START_IDLE, shared_from_this() ) );
+}
+
 std::shared_ptr<hamurai::Port> hamurai::Kernel::declare_port(const string &name, std::map<string, std::shared_ptr<hamurai::Port> > &m)
 {
     std::shared_ptr<Port> ret = nullptr;

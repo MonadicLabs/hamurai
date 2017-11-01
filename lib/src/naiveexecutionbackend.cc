@@ -27,8 +27,7 @@ void hamurai::NaiveExecutionBackend::processEvents()
     {
 
         std::shared_ptr< Event > e = nullptr;
-        _mainQueue.dequeue( e, 0 );
-
+        _mainQueue.dequeue( e, -1 );
 
         if( e )
         {
@@ -38,12 +37,21 @@ void hamurai::NaiveExecutionBackend::processEvents()
                 std::shared_ptr< Kernel > k = e->kernel();
                 k->init();
             }
+
             else if( e->type() == hamurai::Event::HAMURAI_EVENT_TICK )
             {
                 std::shared_ptr< Kernel > k = e->kernel();
                 k->tick();
             }
+
         }
+
+        // Tick every idling kernel ?
+        for( std::shared_ptr<Kernel> k : _idling )
+        {
+            k->tick();
+        }
+
     }
 }
 

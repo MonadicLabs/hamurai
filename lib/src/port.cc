@@ -2,7 +2,7 @@
 #include "port.h"
 #include "kernel.h"
 
-bool hamurai::Port::push(hamurai::DataItem const&item)
+bool hamurai::Port::push()
 {
     /*
     // Enqueue the item...

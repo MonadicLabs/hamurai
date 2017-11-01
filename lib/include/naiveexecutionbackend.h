@@ -5,6 +5,7 @@
 #include <iostream>
 #include <atomic>
 #include <thread>
+#include <set>
 
 using namespace std;
 
@@ -18,7 +19,10 @@ namespace hamurai {
 
         virtual void receive( std::shared_ptr<Event> e )
         {
-            cerr << "enqueuing Event... " << e->kernel() << " - " << e->type() << endl;
+            if( e->type() == Event::HAMURAI_EVENT_KERNEL_START_IDLE )
+            {
+                _idling.insert( e->kernel() );
+            }
             _mainQueue.enqueue( e );
         }
 
@@ -33,6 +37,8 @@ namespace hamurai {
     protected:
         EventQueue _mainQueue;
         std::thread _mainThread;
+
+        std::set< std::shared_ptr< Kernel > > _idling;
 
     };
 }

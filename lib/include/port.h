@@ -2,6 +2,7 @@
 
 #include "dataqueue.h"
 #include "dataitem.h"
+#include "some.h"
 
 #include <string>
 
@@ -14,7 +15,7 @@ namespace hamurai
         friend class Kernel;
 
     public:
-        bool push( DataItem const& item );
+        bool push();
 
     private:
         Kernel* _parent;
