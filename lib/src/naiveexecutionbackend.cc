@@ -23,33 +23,39 @@ void hamurai::NaiveExecutionBackend::join()
 
 void hamurai::NaiveExecutionBackend::processEvents()
 {
+
     while( !_needStop )
     {
 
-        std::shared_ptr< Event > e = nullptr;
-        _mainQueue.dequeue( e, -1 );
+        _backQueue.transferTo( _frontQueue );
 
-        if( e )
+        while( _frontQueue.size() > 0 )
         {
-            cerr << "queue size=" << _mainQueue.size() << " - RECEIVED NEW EVENT ! - TYPE=" << e->type() << " from " << e->kernel() << endl;
-            if( e->type() == hamurai::Event::HAMURAI_EVENT_INIT_QUERY )
-            {
-                std::shared_ptr< Kernel > k = e->kernel();
-                k->init();
-            }
+            std::shared_ptr< Event > e = nullptr;
+            _frontQueue.dequeue( e, -1 );
 
-            else if( e->type() == hamurai::Event::HAMURAI_EVENT_TICK )
+            if( e )
             {
-                std::shared_ptr< Kernel > k = e->kernel();
-                k->tick();
-            }
+                cerr << "queue size=" << _backQueue.size() << " - RECEIVED NEW EVENT ! - TYPE=" << e->type() << " from " << e->kernel() << endl;
+                if( e->type() == hamurai::Event::HAMURAI_EVENT_INIT_QUERY )
+                {
+                    std::shared_ptr< Kernel > k = e->kernel();
+                    k->init();
+                }
 
+                else if( e->type() == hamurai::Event::HAMURAI_EVENT_TICK )
+                {
+                    std::shared_ptr< Kernel > k = e->kernel();
+                    k->tick();
+                }
+
+            }
         }
 
         // Tick every idling kernel ?
         for( std::shared_ptr<Kernel> k : _idling )
         {
-            k->tick();
+            _backQueue.enqueue( std::make_shared<Event>( Event::HAMURAI_EVENT_TICK, k) );
         }
 
     }

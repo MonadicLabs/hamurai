@@ -23,7 +23,7 @@ namespace hamurai {
             {
                 _idling.insert( e->kernel() );
             }
-            _mainQueue.enqueue( e );
+            _backQueue.enqueue( e );
         }
 
         virtual void start();
@@ -35,7 +35,9 @@ namespace hamurai {
         std::atomic< bool > _needStop;
 
     protected:
-        EventQueue _mainQueue;
+        EventQueue _frontQueue;
+        EventQueue _backQueue;
+
         std::thread _mainThread;
 
         std::set< std::shared_ptr< Kernel > > _idling;

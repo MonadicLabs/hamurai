@@ -1,20 +1,28 @@
 #pragma once
 
-#include "dataitem.h"
+#include "genericqueue.h"
+#include "any.h"
+
+#include <memory>
 
 namespace hamurai
 {
-    class DataQueue
-    {
-    public:
-        DataQueue();
-        virtual ~DataQueue();
+class DataQueue : public GenericQueue< hamurai::Any >
+{
+public:
+    DataQueue();
+    virtual ~DataQueue();
 
-        bool enqueue( DataItem const& item );
-        bool dequeue( DataItem& item );
+    virtual bool enqueue( Any const& item );
+    virtual bool enqueue( Any && item );
+    virtual bool dequeue( Any & item, int64_t timeout_ms );
 
-    private:
-        void* _backend;
+    int size();
 
-    };
+private:
+
+protected:
+    void * _backend;
+
+};
 }
