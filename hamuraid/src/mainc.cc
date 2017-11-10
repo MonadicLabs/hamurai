@@ -22,6 +22,7 @@ public:
         {
             cerr << "INIT ! " << this << endl;
             this->enable_idle();
+            cpt = 0;
         }
     }
 
@@ -29,11 +30,17 @@ public:
     {
         if( getState() == Kernel::STARTED )
         {
-            cerr << "TICK ! " << this << endl;
+            if( cpt % 1000 == 0 )
+            cerr << "i=" << cpt << " - TICK ! " << this << endl;
             // sleep(1);
-            double popo = exp( 1566.3 ) * log( pow( 23, 4.6 ) );
+            // double popo = exp( 1566.3 ) * log( pow( 23, 4.6 ) );
+            ++cpt;
         }
     }
+
+private:
+    int cpt;
+
 };
 
 class TestKernel : public hamurai::Kernel
@@ -62,6 +69,8 @@ int main( int argc, char** argv )
 
     std::shared_ptr<hamurai::Kernel> k1 = std::make_shared< RandomNumberGenerator >();
     std::shared_ptr<hamurai::Kernel> k2 = std::make_shared< RandomNumberGenerator >();
+    std::shared_ptr<hamurai::Kernel> k3 = std::make_shared< RandomNumberGenerator >();
+    std::shared_ptr<hamurai::Kernel> k4 = std::make_shared< RandomNumberGenerator >();
 
     cerr << "kernel: " << k1 << endl;
     cerr << "kernel: " << k2 << endl;
@@ -70,15 +79,18 @@ int main( int argc, char** argv )
 
     p->addKernel( k1 );
     p->addKernel( k2 );
+    p->addKernel( k3 );
+    p->addKernel( k4 );
 
     eb->start();
+    p->start(eb);
 
     while(1)
     {
-        p->start( eb );
+        // p->start( eb );
         sleep(1);
-        p->stop();
-        sleep(1);
+        // p->stop();
+        // sleep(1);
     }
 
     eb->join();

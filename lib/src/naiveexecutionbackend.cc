@@ -36,7 +36,7 @@ void hamurai::NaiveExecutionBackend::processEvents()
 
             if( e )
             {
-                cerr << "queue size=" << _backQueue.size() << " - RECEIVED NEW EVENT ! - TYPE=" << e->type() << " from " << e->kernel() << endl;
+                // cerr << "queue size=" << _backQueue.size() << " - RECEIVED NEW EVENT ! - TYPE=" << e->type() << " from " << e->kernel() << endl;
                 if( e->type() == hamurai::Event::HAMURAI_EVENT_INIT_QUERY )
                 {
                     std::shared_ptr< Kernel > k = e->kernel();
